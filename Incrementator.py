@@ -1,6 +1,7 @@
 import sublime_plugin
+import math
 
-class IncrementSelectionCommand(sublime_plugin.TextCommand):
+class IncrementatorCommand(sublime_plugin.TextCommand):
     digits = '0123456789'
     letters = 'abcdefghijklmnopqrstuvwxyz'
     special = '#'
@@ -24,39 +25,38 @@ class IncrementSelectionCommand(sublime_plugin.TextCommand):
         else:
             step = int(first_selection[1])
 
+        width = int(math.floor(math.log10(len(selections)))) + 1
+        width = max(width, len(start))
+
         if start == '':
             start = 1
             def gen(counter):
-                return str(start + counter)
-
+                return str(start + counter).rjust(width)
         elif start[0] in self.digits:
             if start[0] == '0':
                 length = len(start)
                 start = int(start)
                 def gen(counter):
-                    result = str(start + counter)
-                    while len(result) < length:
-                        result = '0' + result
+                    result = str(start + counter).rjust(width, '0')
                     return result
             else:
                 start = int(start)
                 def gen(counter):
-                    return str(start + counter)
-
+                    return str(start + counter).rjust(width)
         elif start[0] in self.letters:
             start = self.letter_decode(start)
             def gen(counter):
-                return self.letter_encode(start + counter)
+                return self.letter_encode(start + counter).rjust(width)
 
         elif start[0] in self.letters.upper():
             start = self.letter_decode(start)
             def gen(counter):
-                return self.letter_encode(start + counter).upper()
+                return self.letter_encode(start + counter).upper().rjust(width)
 
         elif start[0] in self.special:
             if start[0] == '#':
                 def gen(counter):
-                    return str(self.view.rowcol(selection.begin())[0] + 1)
+                    return str(self.view.rowcol(selection.begin())[0] + 1).rjust(width)
 
         else:
             return

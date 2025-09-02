@@ -1,3 +1,18 @@
+Incrementator
+=================
+
+This is a fork of [IncrementSelection by yulanggong.](https://github.com/yulanggong/IncrementSelection)
+yulanggong appears to be completely inactive on GitHub, but thankfully the license permits me
+to publish my modified version.  I changed the project name so it wouldn't collide with the original.
+
+My version simply changes the inserted text so it's a uniform width.  If you insert the numbers
+1-20, in the original version the numbers 1-9 would be one character wide, and the numbers
+10-20 would be two characters wide.  So if you were overwriting a 2x20 selection, the first nine
+edits would remove a column.  My edit changes it so every insertion is the same width; shorter
+numbers are padded with spaces as needed.
+
+The original documentation is below.
+
 Increment Selection
 ==================
 
